@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-//#include <windows.h>
+#include <windows.h>
 #include <unordered_set>
 #include <queue>
 #include "./lib/eaColor.h"
@@ -15,7 +15,7 @@ const int CEDULA = 1722208525;
 
 struct eaNodo {
     int eaCap;
-    char eaGeo[4];
+    char eaGeo[3];
     string eaTipo;
     eaNodo* izquierda;
     eaNodo* derecha;
@@ -27,7 +27,7 @@ eaNodo* eaInsertarnodo(eaNodo* eaRaiz, int eaCap, char eaGeo, string eaTipo) {
     {
         eaRaiz = new eaNodo;
         eaRaiz->eaCap = eaCap;
-        *eaRaiz->eaGeo = eaGeo;
+        eaRaiz->eaGeo[0] = eaGeo;
         eaRaiz->eaTipo = eaTipo;
         eaRaiz->izquierda = nullptr;
         eaRaiz->derecha = nullptr;
@@ -109,19 +109,26 @@ void eaMostrarorden(eaNodo* eaRaiz)
     eaMostrarorden(eaRaiz->derecha);
 }
 
-
 void eaMostrar()
 {
     ifstream archivo;
-    archivo.open("coordenadas.txt");
+    archivo.open("newcoordenadas.txt");
 
     if (archivo.is_open()) 
     {
         string linea;
-        cout << "Leyendo coordenadas... " << endl;
+        cout << "\033[0;32mLeyendo coordenadas... \033[0m" << endl;
+        cout << "\033[1;31m>>Error: Cap, Geo, Tipo Arsenal ->stoi\033[0m" << endl;
+
         while (getline(archivo, linea)) 
         {
-            cout << linea << endl;
+            string eaCharge = "\\|/-";
+            for (int i = 0; i < 100; i++)
+            {
+                cout << eaCharge[i]<<i<<'%'<<"\b\b\b\b";
+                Sleep(5);
+            }
+            cout << "\033[0;32m" << linea << "\033[0m" << endl;
         }
         archivo.close();
     } 
@@ -130,6 +137,34 @@ void eaMostrar()
         cout << "Error al abrir el archivo" << endl;
     }
 }
+
+void eliminarDuplicados(string archivoEntrada, string archivoSalida) {
+    ifstream infile(archivoEntrada);
+    if (!infile) {
+        cerr << "No se pudo abrir el archivo de entrada" << endl;
+        exit(1);
+    }
+
+    ofstream outfile(archivoSalida);
+    if (!outfile) {
+        cerr << "No se pudo abrir el archivo de salida" << endl;
+        exit(1);
+    }
+
+    unordered_set<string> lineasUnicas;
+    string linea;
+
+    while (getline(infile, linea)) {
+        if (lineasUnicas.find(linea) == lineasUnicas.end()) {
+            lineasUnicas.insert(linea);
+            outfile << linea << endl;
+        }
+    }
+
+    infile.close();
+    outfile.close();
+}
+
 
 void eaLiberarArbol(eaNodo* eaRaiz) {
     if (eaRaiz != nullptr) {
@@ -141,12 +176,11 @@ void eaLiberarArbol(eaNodo* eaRaiz) {
 
 int main() 
 {
-    //eaMostrar();
     eaNodo* eaRaiz = eaCreararbol("coordenadas.txt");
     eaEliminarduplicados(eaRaiz);
-    eaMostrarorden(eaRaiz);
-
-
-
+    eliminarDuplicados("coordenadas.txt", "newcoordenadas.txt");
+    eaMostrar();
+    
     return 0;
 }
+
