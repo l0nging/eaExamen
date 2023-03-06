@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-//#include <windows.h>
+#include <windows.h>
 #include <unordered_set>
 #include <queue>
 #include "./lib/eaColor.h"
@@ -126,7 +126,7 @@ void eaMostrar()
             for (int i = 0; i < 100; i++)
             {
                 cout << eaCharge[i]<<i<<'%'<<"\b\b\b\b";
-                //Sleep(5);
+                Sleep(5);
             }
             cout << "\033[0;32m" << linea << "\033[0m" << endl;
         }
