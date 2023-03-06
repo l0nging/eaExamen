@@ -21,10 +21,31 @@ struct eaNodo {
     eaNodo* derecha;
 };
 
-void eaEliminarduplicados(eaNodo* eaRaiz) 
-{
+eaNodo* eaInsertarnodo(eaNodo* eaRaiz, int eaCap, char eaGeo, string eaTipo) {
+
     if (eaRaiz == nullptr) 
     {
+        eaRaiz = new eaNodo;
+        eaRaiz->eaCap = eaCap;
+        *eaRaiz->eaGeo = eaGeo;
+        eaRaiz->eaTipo = eaTipo;
+        eaRaiz->izquierda = nullptr;
+        eaRaiz->derecha = nullptr;
+    }
+    else if (eaCap < eaRaiz->eaCap) 
+    {
+        eaRaiz->izquierda = eaInsertarnodo(eaRaiz->izquierda, eaCap, eaGeo, eaTipo);
+    }
+    else if (eaCap > eaRaiz->eaCap) 
+    {
+        eaRaiz->derecha = eaInsertarnodo(eaRaiz->derecha, eaCap, eaGeo, eaTipo);
+    }
+    return eaRaiz;
+}
+
+void eaEliminarduplicados(eaNodo* eaRaiz) 
+{
+    if (eaRaiz == nullptr) {
         return;
     }
 
@@ -34,46 +55,27 @@ void eaEliminarduplicados(eaNodo* eaRaiz)
     q.push(eaRaiz);
 
     while (!q.empty()) {
-        eaRaiz* curr = q.front();
+        eaNodo* curr = q.front();
         q.pop();
 
         if (curr->izquierda != nullptr) {
-            if (visited.find(curr->izquierda->val) != visited.end()) {
+            if (visited.find(curr->izquierda->eaCap) != visited.end()) {
                 curr->izquierda = nullptr;
             } else {
-                visited.insert(curr->izquierda->val);
+                visited.insert(curr->izquierda->eaCap);
                 q.push(curr->izquierda);
             }
         }
 
-        if (curr->right != nullptr) {
-            if (visited.find(curr->right->val) != visited.end()) {
-                curr->right = nullptr;
+        if (curr->derecha != nullptr) {
+            if (visited.find(curr->derecha->eaCap) != visited.end()) {
+                curr->derecha = nullptr;
             } else {
-                visited.insert(curr->right->val);
-                q.push(curr->right);
+                visited.insert(curr->derecha->eaCap);
+                q.push(curr->derecha);
             }
         }
     }
-}
-
-eaNodo* eaInsertarnodo(eaNodo* eaRaiz, int eaCap, char eaGeo, string eaTipo) 
-{
-    if (eaRaiz== NULL) {
-        eaRaiz = new eaNodo;
-        eaRaiz->eaCap = eaCap;
-        *eaRaiz->eaGeo = eaGeo;
-        eaRaiz->eaTipo = eaTipo;
-        eaRaiz->izquierda = NULL;
-        eaRaiz->derecha = NULL;
-    }
-    else if (eaCap < eaRaiz->eaCap) {
-        eaRaiz->izquierda = eaInsertarnodo(eaRaiz->izquierda, eaCap, eaGeo, eaTipo);
-    }
-    else if ( eaCap > eaRaiz->eaCap) {
-        eaRaiz->derecha = eaInsertarnodo(eaRaiz->derecha, eaCap, eaGeo, eaTipo);
-    }
-    return eaRaiz;
 }
 
 eaNodo* eaCreararbol(string filename) 
@@ -98,22 +100,27 @@ eaNodo* eaCreararbol(string filename)
 
 void eaMostrarorden(eaNodo* eaRaiz) 
 {
-    if (eaRaiz != NULL) {
-        eaMostrarorden(eaRaiz->izquierda);
-        cout << eaRaiz->eaCap << " " << eaRaiz->eaGeo << " " << eaRaiz->eaTipo << endl;
-        eaMostrarorden(eaRaiz->derecha);
+    if (eaRaiz == nullptr) 
+    {
+        return;
     }
+    eaMostrarorden(eaRaiz->izquierda);
+    cout << eaRaiz->eaCap << " " << eaRaiz->eaGeo << " " << eaRaiz->eaTipo << endl;
+    eaMostrarorden(eaRaiz->derecha);
 }
+
 
 void eaMostrar()
 {
     ifstream archivo;
     archivo.open("coordenadas.txt");
 
-    if (archivo.is_open()) {
+    if (archivo.is_open()) 
+    {
         string linea;
-        while (getline(archivo, linea)) {
-            // procesar la línea leída del archivo
+        cout << "Leyendo coordenadas... " << endl;
+        while (getline(archivo, linea)) 
+        {
             cout << linea << endl;
         }
         archivo.close();
@@ -134,8 +141,11 @@ void eaLiberarArbol(eaNodo* eaRaiz) {
 
 int main() 
 {
+    //eaMostrar();
     eaNodo* eaRaiz = eaCreararbol("coordenadas.txt");
+    eaEliminarduplicados(eaRaiz);
     eaMostrarorden(eaRaiz);
+
 
 
     return 0;
