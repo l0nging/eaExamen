@@ -3,9 +3,10 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
-#include <ctime>
 #include <string>
 //#include <windows.h>
+#include <unordered_set>
+#include <queue>
 #include "./lib/eaColor.h"
 using namespace std;
 
@@ -20,6 +21,42 @@ struct eaNodo {
     eaNodo* derecha;
 };
 
+void eaEliminarduplicados(eaNodo* eaRaiz) 
+{
+    if (eaRaiz == nullptr) 
+    {
+        return;
+    }
+
+    unordered_set<int> visited;
+    queue<eaNodo*> q;
+    visited.insert(eaRaiz->eaCap);
+    q.push(eaRaiz);
+
+    while (!q.empty()) {
+        eaRaiz* curr = q.front();
+        q.pop();
+
+        if (curr->izquierda != nullptr) {
+            if (visited.find(curr->izquierda->val) != visited.end()) {
+                curr->izquierda = nullptr;
+            } else {
+                visited.insert(curr->izquierda->val);
+                q.push(curr->izquierda);
+            }
+        }
+
+        if (curr->right != nullptr) {
+            if (visited.find(curr->right->val) != visited.end()) {
+                curr->right = nullptr;
+            } else {
+                visited.insert(curr->right->val);
+                q.push(curr->right);
+            }
+        }
+    }
+}
+
 eaNodo* eaInsertarnodo(eaNodo* eaRaiz, int eaCap, char eaGeo, string eaTipo) 
 {
     if (eaRaiz== NULL) {
@@ -33,11 +70,9 @@ eaNodo* eaInsertarnodo(eaNodo* eaRaiz, int eaCap, char eaGeo, string eaTipo)
     else if (eaCap < eaRaiz->eaCap) {
         eaRaiz->izquierda = eaInsertarnodo(eaRaiz->izquierda, eaCap, eaGeo, eaTipo);
     }
-    // Si el valor del nodo es mayor que la raíz, insertarlo en el subárbol derecho
     else if ( eaCap > eaRaiz->eaCap) {
         eaRaiz->derecha = eaInsertarnodo(eaRaiz->derecha, eaCap, eaGeo, eaTipo);
     }
-    // Si el valor del nodo es igual que la raíz, no se inserta (se descarta)
     return eaRaiz;
 }
 
@@ -70,6 +105,25 @@ void eaMostrarorden(eaNodo* eaRaiz)
     }
 }
 
+void eaMostrar()
+{
+    ifstream archivo;
+    archivo.open("coordenadas.txt");
+
+    if (archivo.is_open()) {
+        string linea;
+        while (getline(archivo, linea)) {
+            // procesar la línea leída del archivo
+            cout << linea << endl;
+        }
+        archivo.close();
+    } 
+    else 
+    {
+        cout << "Error al abrir el archivo" << endl;
+    }
+}
+
 void eaLiberarArbol(eaNodo* eaRaiz) {
     if (eaRaiz != nullptr) {
         eaLiberarArbol(eaRaiz->izquierda);
@@ -82,7 +136,7 @@ int main()
 {
     eaNodo* eaRaiz = eaCreararbol("coordenadas.txt");
     eaMostrarorden(eaRaiz);
-    
+
 
     return 0;
 }
