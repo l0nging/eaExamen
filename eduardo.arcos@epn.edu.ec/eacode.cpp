@@ -126,7 +126,7 @@ void eaMostrar()
             for (int i = 0; i < 100; i++)
             {
                 cout << eaCharge[i]<<i<<'%'<<"\b\b\b\b";
-                Sleep(5);
+                //Sleep(5);
             }
             cout << "\033[0;32m" << linea << "\033[0m" << endl;
         }
@@ -189,16 +189,14 @@ void eaLiberarArbol(eaNodo* eaRaiz) {
 int main() 
 {
     cout << "\n";
-    eaNodo* eaRaiz = eaCreararbol("coordenadas.txt");
+    eaNodo* eaRaiz = eaCreararbol("newcoordenadas.txt");
     eaEliminarduplicados(eaRaiz);
     eliminarDuplicados("coordenadas.txt", "newcoordenadas.txt");
     eaMostrar();
     cout << "\n\n\n";
     eaMostrar_dos();
     cout << "\n";
-
-
-    
+    eaEliminarduplicados(eaRaiz);
     return 0;
 }
 
