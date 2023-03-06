@@ -163,8 +163,17 @@ void eliminarDuplicados(string archivoEntrada, string archivoSalida) {
 
     infile.close();
     outfile.close();
+
+    cout << "Se eliminaron las coordenadas duplicadas " << endl;
+
 }
 
+/*void eaMostrar_dos()
+{
+
+
+
+}*/
 
 void eaLiberarArbol(eaNodo* eaRaiz) {
     if (eaRaiz != nullptr) {
@@ -180,6 +189,7 @@ int main()
     eaEliminarduplicados(eaRaiz);
     eliminarDuplicados("coordenadas.txt", "newcoordenadas.txt");
     eaMostrar();
+    //eaMostrar_dos();
     
     return 0;
 }
