@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-#include <windows.h>
+//#include <windows.h>
 #include <unordered_set>
 #include <queue>
 #include "./lib/eaColor.h"
@@ -168,12 +168,12 @@ void eliminarDuplicados(string archivoEntrada, string archivoSalida) {
 
 }
 
-/*void eaMostrar_dos()
+void eaMostrar_dos()
 {
+    cout << "Información Arbol Binario "
 
 
-
-}*/
+}
 
 void eaLiberarArbol(eaNodo* eaRaiz) {
     if (eaRaiz != nullptr) {
@@ -189,7 +189,7 @@ int main()
     eaEliminarduplicados(eaRaiz);
     eliminarDuplicados("coordenadas.txt", "newcoordenadas.txt");
     eaMostrar();
-    //eaMostrar_dos();
+    eaMostrar_dos();
     
     return 0;
 }

@@ -1,6 +1,0 @@
-5, GPS5, bct
-2, GPS2, ac
-8, GPS8, abbccdt
-0, GPS0, ab
-7, GPS7, aaabbct
-1, GPS1, bc
