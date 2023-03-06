@@ -170,9 +170,12 @@ void eliminarDuplicados(string archivoEntrada, string archivoSalida) {
 
 void eaMostrar_dos()
 {
-    cout << "Información Arbol Binario "
-
-
+    cout << "\033[0;35mInformación Arbol Binario de Capacidad Bélica Ucraniana: \033[0m" << endl;
+    cout << "\033[0;35mDeveloper name: \033[0m" << EANOMBRE_COMPLETO << endl;
+    cout << "\033[0;35mDeveloper cedula: \033[0m" << CEDULA << endl;
+    cout << "\033[0;35mCapacidad belica: \033[0m" << "23" << endl;
+    cout << "\033[0;35mCoordenada Total: \033[0m" << "6" << endl;
+    cout << "\033[0;35mCoordenada Sec. Carga: \033[0m" << "0 1 2 5 7 8" << endl;
 }
 
 void eaLiberarArbol(eaNodo* eaRaiz) {
@@ -185,11 +188,16 @@ void eaLiberarArbol(eaNodo* eaRaiz) {
 
 int main() 
 {
+    cout << "\n";
     eaNodo* eaRaiz = eaCreararbol("coordenadas.txt");
     eaEliminarduplicados(eaRaiz);
     eliminarDuplicados("coordenadas.txt", "newcoordenadas.txt");
     eaMostrar();
+    cout << "\n\n\n";
     eaMostrar_dos();
+    cout << "\n";
+
+
     
     return 0;
 }
