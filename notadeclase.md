@@ -35,8 +35,8 @@
   Las estructuras de datos en C++ se pueden entender como un tipo de dato compuesto (no complejo). Las estructuras de datos permiten almacenar de manera ordenada una serie de valores dados en una misma variable. Las estructuras de datos más comunes son los arrays, que pueden ser unidimensionales (de una dimensión) también conocidos como vectores, o multidimensionales (de varias dimensiones) también conocidos como matrices, aunque hay otras un poco más diferentes como son struct, las enumeraciones y los punteros.
 
   Ejemplo de estructura
-  ~~~
-  #include <iostream>
+~~~ 
+ #include <iostream>
  using namespace std;
  struct Mascota
  {
@@ -210,7 +210,7 @@
   }
   ~~~
   Output:
-  ~~~
+ ~~~
   19
   2.7
   Mike
@@ -525,12 +525,12 @@
   En este ejemplo, creamos una lista de números enteros utilizando la clase std::list. Luego, utilizamos las funciones push_back() y remove() para agregar un elemento al final de la lista y eliminar un elemento de la lista, respectivamente. Finalmente, recorremos la lista utilizando un bucle for para mostrar todos los elementos de la lista.
 
 * ### Cola
-  una cola es una estructura de datos que permite almacenar y acceder a elementos de manera secuencial siguiendo una política FIFO (First In, First Out), es decir, el primer elemento que entra en la cola es el primero que sale.
+  Es una estructura de datos que permite almacenar y acceder a elementos de manera secuencial siguiendo una política FIFO (First In, First Out), es decir, el primer elemento que entra en la cola es el primero que sale.
 
   La implementación más común de una cola en C++ es la cola de la biblioteca estándar, implementada mediante un contenedor deque (double-ended queue). La clase std::queue de la biblioteca estándar de C++ implementa una cola.
 
   Ejemplo de cómo crear y utilizar una cola en C++:
-  ~~~
+ ~~~
   #include <iostream>
   #include <queue>
 
@@ -570,7 +570,7 @@
 
   La implementación más común de una pila en C++ es la pila de la biblioteca estándar, implementada mediante un contenedor deque (double-ended queue). La clase std::stack de la biblioteca estándar de C++ implementa una pila.
 
-  ~~~
+ ~~~
   #include <iostream>
   #include <stack>
 
@@ -839,7 +839,7 @@
   En C++, podemos implementar un árbol binario utilizando una clase que tenga punteros a los nodos hijo izquierdo y derecho, así como una función de inserción para agregar nuevos nodos al árbol.
 
   Veamos un ejemplo de cómo crear y utilizar un árbol binario en nuestro lenguaje:
-  ~~~
+ ~~~
   #include <iostream>
 
   class Nodo {
@@ -931,6 +931,7 @@
  }
  ~~~
  Aquí: 
+ 
  La clase Nodo que representa un nodo en el árbol binario y una clase ArbolBinario que representa el árbol binario en sí. La clase Nodo tiene un valor asociado y punteros a los nodos hijo izquierdo y derecho.
 
  La clase ArbolBinario tiene un puntero a la raíz del árbol y funciones para insertar un nuevo nodo en el árbol y mostrar el árbol en orden. En la función de inserción, se comprueba si la raíz del árbol está vacía y, si es así, se crea un nuevo nodo y se establece como la raíz del árbol. Si la raíz del árbol no está vacía, se busca la ubicación adecuada para el nuevo nodo.
@@ -941,7 +942,7 @@
   La implementación de una tabla hash implica utilizar una función hash que toma la clave de un elemento y lo transforma en un índice en el que se almacenará ese elemento dentro de la tabla. Idealmente, esta función hash debe distribuir uniformemente las claves en la tabla, minimizando las colisiones, que se producen cuando dos claves diferentes se asignan al mismo índice.
 
   En C++, podemos implementar una tabla hash utilizando la clase unordered_map de la biblioteca estándar. Esta clase proporciona una implementación de una tabla hash utilizando el método de encadenamiento, que es una técnica para resolver colisiones mediante la creación de listas enlazadas de elementos que tienen la misma clave.
-  ~~~
+ ~~~
   #include <iostream>
   #include <unordered_map>
 
@@ -972,6 +973,5 @@
   
 * ### Recursos
   [Mike Dane](https://www.mikedane.com/)
+
   [Giraffe Academy](https://youtu.be/vLnPwxZdW4Y)
-
-
