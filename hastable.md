@@ -409,6 +409,7 @@ Estas estructuras permiten realizar búsquedas muy eficientes. En el mejor de lo
   Su uso en contraseñas no es un método infalible. La mayoría de los algoritmos son bien conocidos y los piratas informáticos pueden utilizar tablas "rainbow" que almacenan valores de todo un diccionario de posibles contraseñas para buscar una coincidencia. Cuando se encuentra una coincidencia, se revela la contraseña asociada.
 
   Para superar este problema, se puede utilizar un "salt". Un "salt" es un dato aleatorio que se añade a la contraseña antes de aplicar el hash. El valor de "salt" se almacena en texto plano junto con el identificador de usuario y la contraseña cifrada. Cuando un usuario intenta iniciar sesión, se recupera su registro y se añade el valor de "salt" a la contraseña introducida. Los datos combinados se convierten en hash y se comparan con el valor almacenado. Ahora, aunque alguien utilice la misma contraseña para varios sistemas, se almacenarán valores diferentes.
+  ```
 
   
 
