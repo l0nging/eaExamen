@@ -1,64 +1,123 @@
 #include <iostream>
 
-#include <unordered_map>
-
 #include <string>
 
-struct Data {
+#include <unordered_map>
 
-    int cap;
-
-    std::string geo;
+struct Arsenal {
 
     std::string tipo;
 
 };
 
+class GPS {
+
+public:
+
+    std::string cap;
+
+    std::string geo;
+
+    Arsenal* arsenal;
+
+    GPS(std::string cap, std::string geo, std::string tipo) {
+
+        this->cap = cap;
+
+        this->geo = geo;
+
+        this->arsenal = new Arsenal{ tipo };
+
+    }
+
+    ~GPS() {
+
+        delete arsenal;
+
+    }
+
+};
+
+// Función hash personalizada para la clase GPS
+
+struct GPSHasher {
+
+    std::size_t operator()(const GPS* g) const {
+
+        std::hash<std::string> stringHasher;
+
+        return stringHasher(g->cap + g->geo + g->arsenal->tipo);
+
+    }
+
+};
+
+// Función de igualdad personalizada para la clase GPS
+
+struct GPSEqual {
+
+    bool operator()(const GPS* lhs, const GPS* rhs) const {
+
+        return lhs->cap == rhs->cap &&
+
+               lhs->geo == rhs->geo &&
+
+               lhs->arsenal->tipo == rhs->arsenal->tipo;
+
+    }
+
+};
+
 int main() {
 
-    std::unordered_map<std::string, Data> tabla;
+    // Crear la tabla hash
 
-    tabla["GPS0"] = {0, "GPS0", "ab"};
+    std::unordered_map<GPS*, int, GPSHasher, GPSEqual> gpsHash;
 
-    tabla["GPS1"] = {1, "GPS1", "bc"};
+    // Poblar la tabla hash con los datos proporcionados
 
-    tabla["GPS2"] = {2, "GPS2", "ac"};
+    gpsHash.emplace(new GPS("0", "GPS0", "ab"), 0);
 
-    tabla["GPS3"] = {3, "GPS3", "bcd"};
+    gpsHash.emplace(new GPS("1", "GPS1", "bc"), 1);
 
-    tabla["GPS4"] = {4, "GPS4", "acd"};
+    gpsHash.emplace(new GPS("2", "GPS2", "ac"), 2);
 
-    tabla["GPS5"] = {5, "GPS5", "bct"};
+    gpsHash.emplace(new GPS("3", "GPS3", "bcd"), 3);
 
-    tabla["GPS6"] = {6, "GPS6", "act"};
+    gpsHash.emplace(new GPS("4", "GPS4", "acd"), 4);
 
-    tabla["GPS7"] = {7, "GPS7", "aaabbct"};
+    gpsHash.emplace(new GPS("5", "GPS5", "bct"), 5);
 
-    tabla["GPS8"] = {8, "GPS8", "abbccdt"};
+    gpsHash.emplace(new GPS("6", "GPS6", "act"), 6);
 
-    tabla["GPS9"] = {9, "GPS9", "aaabbcd"};
+    gpsHash.emplace(new GPS("7", "GPS7", "aaabbct"), 7);
 
-    // Ejemplo de uso
+    gpsHash.emplace(new GPS("8", "GPS8", "abbccdt"), 8);
 
-    std::string key = "GPS5";
+    gpsHash.emplace(new GPS("9", "GPS9", "aaabbcd"), 9);
 
-    if (tabla.find(key) != tabla.end()) {
+    // Imprimir los valores almacenados en la tabla hash
 
-        std::cout << "Encontrado: " << key << std::endl;
+    for (const auto& p : gpsHash) {
 
-        std::cout << "Capacidad: " << tabla[key].cap << std::endl;
+        std::cout << "Key: (" << p.first->cap << ", " << p.first->geo << ", " << p.first->arsenal->tipo << ") ";
 
-        std::cout << "Geolocalización: " << tabla[key].geo << std::endl;
+        std::cout << "Value: " << p.second << std::endl;
 
-        std::cout << "Tipo de arsenal: " << tabla[key].tipo << std::endl;
+    }
 
-    } else {
+    // Liberar la memoria reservada para los objetos GPS
 
-        std::cout << "No encontrado: " << key << std::endl;
+    for (const auto& p : gpsHash) {
+
+        delete p.first;
 
     }
 
     return 0;
 
 }
+
+
+
 
