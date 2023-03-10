@@ -1,53 +1,51 @@
 #include <iostream>
-#include <string>
 #include <unordered_map>
+#include <string>
+using namespace std;
 
-struct Arsenal {
-    std::string tipo;
-};
+struct Data
+  {
+    int cap;
+    string geo;
+    string tipo;
+  };
 
-class GPS {
-public:
-    std::string cap;
-    std::string geo;
-    Arsenal arsenal;
+string Dato_a_buscar();
 
-    GPS(std::string cap, std::string geo, std::string tipo) {
-        this->cap = cap;
-        this->geo = geo;
-        this->arsenal.tipo = tipo;
-    }
-};
+int main() 
+ {
+    unordered_map<string, Data> tabla;
+    tabla["GPS0"] = {0, "GPS0", "ab"};
+    tabla["GPS1"] = {1, "GPS1", "bc"};
+    tabla["GPS2"] = {2, "GPS2", "ac"};
+    tabla["GPS3"] = {3, "GPS3", "bcd"};
+    tabla["GPS4"] = {4, "GPS4", "acd"};
+    tabla["GPS5"] = {5, "GPS5", "bct"};
+    tabla["GPS6"] = {6, "GPS6", "act"};
+    tabla["GPS7"] = {7, "GPS7", "aaabbct"};
+    tabla["GPS8"] = {8, "GPS8", "abbccdt"};
+    tabla["GPS9"] = {9, "GPS9", "aaabbcd"};
 
-// Función hash personalizada para la clase GPS
-struct GPSHasher {
-    std::size_t operator()(const GPS& g) const {
-        std::hash<std::string> stringHasher;
-        return stringHasher(g.cap + g.geo + g.arsenal.tipo);
-    }
-};
+    string clave = Dato_a_buscar();
+    if (tabla.find(clave) != tabla.end()) 
+    {
+        cout << "Encontrado: " << clave << endl;
+        cout << "Capacidad: " << tabla[clave].cap << endl;
+        cout << "Geolocalización: " << tabla[clave].geo << endl;
+        cout << "Tipo de arsenal: " << tabla[clave].tipo << endl;
 
-int main() {
-    // Crear la tabla hash
-    std::unordered_map<GPS, int, GPSHasher> gpsHash;
-
-    // Poblar la tabla hash con los datos proporcionados
-    gpsHash.emplace(GPS("0", "GPS0", "ab"), 0);
-    gpsHash.emplace(GPS("1", "GPS1", "bc"), 1);
-    gpsHash.emplace(GPS("2", "GPS2", "ac"), 2);
-    gpsHash.emplace(GPS("3", "GPS3", "bcd"), 3);
-    gpsHash.emplace(GPS("4", "GPS4", "acd"), 4);
-    gpsHash.emplace(GPS("5", "GPS5", "bct"), 5);
-    gpsHash.emplace(GPS("6", "GPS6", "act"), 6);
-    gpsHash.emplace(GPS("7", "GPS7", "aaabbct"), 7);
-    gpsHash.emplace(GPS("8", "GPS8", "abbccdt"), 8);
-    gpsHash.emplace(GPS("9", "GPS9", "aaabbcd"), 9);
-
-    // Imprimir los valores almacenados en la tabla hash
-    for (const auto& p : gpsHash) {
-        std::cout << "Key: (" << p.first.cap << ", " << p.first.geo << ", " << p.first.arsenal.tipo << ") ";
-        std::cout << "Value: " << p.second << std::endl;
+    } else 
+    {
+        cout << "No encontrado: " << clave << endl;
     }
 
     return 0;
 }
+
+string Dato_a_buscar()
+ {
+    string paso;
+    cout << "Ingrese el dato que busca: ";
+    cin >> paso;
+    return paso;
+ }
