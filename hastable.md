@@ -68,4 +68,43 @@ Estas estructuras permiten realizar búsquedas muy eficientes. En el mejor de lo
   
   Esto proporcionará el índice donde se encontrarán los datos asociados.
 
-* ## __
+  ***Hashing de datos de caracteres***
+  
+  No todos los valores de las claves son simples números enteros, por lo que la función hash tendrá que hacer más procesamientos. Consideremos una clave alfanumérica compuesta por cuatro letras o números cualesquiera. Un código de ejemplo sería A5RD.
+
+  Para hacer el hash del código, los caracteres podrían convertirse a sus códigos numéricos ASCII:
+
+  |  Caracter | ASCII  |  
+  |---|--|
+  | A| 65 |
+  | 5| 53|
+  | D| 82|
+  | R| 68|
+
+  A continuación, puedes sumar los valores para obtener un total: 65,65 + 53 + 82 + 68 = 268
+
+  Por último, aplica la función módulo: 268 MOD 97 = 74
+  Los datos asociados al código A5RD se almacenarán en la posición 74 de la tabla.
+  
+* ## _Ingresando datos_
+  Para insertar datos, debes utilizar la función hash para generar el índice de la posición en el array que se utilizará para almacenar los datos. Recuerda que la clave debe almacenarse como parte de los datos o junto a ellos.
+
+  Ya has visto un ejemplo de cómo una función hash podría convertir la clave A5RD en el valor hash 74; los datos identificados por esta clave se almacenarán en la posición 74 de la tabla hash.
+
+  | Clave | Funcion | Valor |
+  |--|--|--|
+  | A5RD | Aplicando la función hash | valor = 74 |
+
+  ![Figura 1](https://isaaccomputerscience.org/api/v3.5.0/api/images/content/computer_science/data_structures_and_algorithms/data_structures/figures/isaac_cs_dsa_data_struct_hash_a5rd.png)
+  
+  Si tienes una función hash perfecta, es así de fácil. Sin embargo, como descubrirás cuando leas sobre colisiones, las funciones hash rara vez son perfectas.
+  
+* ## _Ingresando datos_
+  
+
+* ## _Ingresando datos_
+
+* ## _Ingresando datos_
+
+* ## _Ingresando datos_
+
