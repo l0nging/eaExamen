@@ -1,51 +1,85 @@
 #include <iostream>
-#include <unordered_map>
-#include <string>
-using namespace std;
+  #include <string>
+  #include <unordered_map>
+  using namespace std;
 
-struct Data
+  struct Arsenal 
   {
-    int cap;
-    string geo;
     string tipo;
   };
 
-string Dato_a_buscar();
+  class GPS 
+  {
+    public:
+            string cap;
+            string geo;
+            Arsenal* arsenal;
 
-int main() 
- {
-    unordered_map<string, Data> tabla;
-    tabla["GPS0"] = {0, "GPS0", "ab"};
-    tabla["GPS1"] = {1, "GPS1", "bc"};
-    tabla["GPS2"] = {2, "GPS2", "ac"};
-    tabla["GPS3"] = {3, "GPS3", "bcd"};
-    tabla["GPS4"] = {4, "GPS4", "acd"};
-    tabla["GPS5"] = {5, "GPS5", "bct"};
-    tabla["GPS6"] = {6, "GPS6", "act"};
-    tabla["GPS7"] = {7, "GPS7", "aaabbct"};
-    tabla["GPS8"] = {8, "GPS8", "abbccdt"};
-    tabla["GPS9"] = {9, "GPS9", "aaabbcd"};
-
-    string clave = Dato_a_buscar();
-    if (tabla.find(clave) != tabla.end()) 
+    GPS(string cap, string geo, string tipo) 
     {
-        cout << "Encontrado: " << clave << endl;
-        cout << "Capacidad: " << tabla[clave].cap << endl;
-        cout << "Geolocalización: " << tabla[clave].geo << endl;
-        cout << "Tipo de arsenal: " << tabla[clave].tipo << endl;
+        this->cap = cap;
+        this->geo = geo;
+        this->arsenal = new Arsenal{ tipo };
+    }
 
-    } else 
+    ~GPS() 
     {
-        cout << "No encontrado: " << clave << endl;
+        delete arsenal;
+    }
+  };
+
+  // Función hash personalizada para la clase GPS
+  struct GPSHasher 
+  {
+    size_t operator()(const GPS* g) const
+    {
+        hash <string> stringHasher;
+        return stringHasher(g->cap + g->geo + g->arsenal->tipo);
+    }
+  };
+
+  // Función de igualdad personalizada para la clase GPS
+  struct GPSEqual 
+  {
+    bool operator()(const GPS* lhs, const GPS* rhs) const 
+    {
+        return lhs->cap == rhs->cap &&
+               lhs->geo == rhs->geo &&
+               lhs->arsenal->tipo == rhs->arsenal->tipo;
+    }
+  };
+
+  int main() 
+  {
+
+    // Crear la tabla 
+    unordered_map<GPS*, int, GPSHasher, GPSEqual> gpsHash;
+
+    // LLenarla con los datos proporcionados
+    gpsHash.emplace(new GPS("0", "GPS0", "ab"), 0);
+    gpsHash.emplace(new GPS("1", "GPS1", "bc"), 1);
+    gpsHash.emplace(new GPS("2", "GPS2", "ac"), 2);
+    gpsHash.emplace(new GPS("3", "GPS3", "bcd"), 3);
+    gpsHash.emplace(new GPS("4", "GPS4", "acd"), 4);
+    gpsHash.emplace(new GPS("5", "GPS5", "bct"), 5);
+    gpsHash.emplace(new GPS("6", "GPS6", "act"), 6);
+    gpsHash.emplace(new GPS("7", "GPS7", "aaabbct"), 7);
+    gpsHash.emplace(new GPS("8", "GPS8", "abbccdt"), 8);
+    gpsHash.emplace(new GPS("9", "GPS9", "aaabbcd"), 9);
+
+    // Imprimir los valores almacenados en la tabla
+    for (const auto& p : gpsHash) 
+    {
+      cout << "Clave: (" << p.first->cap << ", " << p.first->geo << ", " << p.first->arsenal->tipo << ") ";
+
+      cout << "Valor: " << p.second << endl;
+    }
+
+    //Limpiar la memoria reservada para los objetos GPS
+    for (const auto& p : gpsHash) 
+    {
+        delete p.first;
     }
 
     return 0;
-}
-
-string Dato_a_buscar()
- {
-    string paso;
-    cout << "Ingrese el dato que busca: ";
-    cin >> paso;
-    return paso;
- }
+  }
